@@ -1,5 +1,5 @@
-import { required } from "joi";
+import joi from "joi";
 
-const pollSchema = joi.object ({
+export const pollSchema = joi.object ({
     title: joi.string().required()
 });

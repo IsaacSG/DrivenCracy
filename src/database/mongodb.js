@@ -5,7 +5,7 @@ dotenv.config();
 
 let db = null;
 
-const mongoClient = new MongoClient(process.env.MONGO_URL);
+const mongoClient = new MongoClient(process.env.MONGO_URI);
 
 try {
   await mongoClient.connect();
@@ -13,7 +13,7 @@ try {
   console.log('Banco de dados conectado com sucesso...');
 } 
 catch (error) {
-  console.error('Aconteceu um problema ao conectar o banco de dados...');
+  console.error(error);
 }
 
 export default db;

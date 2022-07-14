@@ -3,8 +3,16 @@ import db from "../database/mongodb.js";
 import dayjs from "dayjs";
 
 export async function newPoll(req, res) {
-    const { title, expiredAt } = req.body;
-
+    const title = req.body.title;
+    let expiredday = req.body.expiredAt;
+    const day = dayjs().add(30, 'day').format('YYYY-MM-DD HH:mm')
+    let expiredAt = "";
+    if(expiredday==undefined){
+        expiredAt = day
+    }
+    else {
+        expiredAt = expiredday;
+    }
 
 
     const validate = pollSchema.validate({title});
@@ -17,7 +25,8 @@ export async function newPoll(req, res) {
         await db
         .collection("poll")
         .insertOne({
-            title
+            title,
+            expiredAt
 
         });
         res.sendStatus(201);

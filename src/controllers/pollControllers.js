@@ -1,6 +1,7 @@
 import { pollSchema } from "../schemas/pollSchema.js";
 import db from "../database/mongodb.js";
 import dayjs from "dayjs";
+import reckon from "../middleware/reckon.js"
 
 
 export async function allPolls(req, res) {
@@ -53,22 +54,48 @@ export async function newPoll(req, res) {
 };
 
 export async function allChoices(req, res) {
+    const { id } = req.params;
 
     try {
-
+      const choicesPoll = await db
+        .collection("choice")
+        .find({ poolId: id })
+        .toArray();
+  
+      res.status(200).send(choicesPoll);
+    } 
+    catch (error) {
+      console.error(error);
+      res.sendStatus(500);
     }
-    catch(error) {
-        
-    }
-}
+  }
 
 export async function pollResult(req, res) {
 
+    const { id } = req.params;
+
     try {
-
+      const poll = await db.collection("poll").findOne(ObjectId(id));
+  
+      if (!poll) return res.sendStatus(404);
+  
+      await db.collection("poll").updateOne(
+        { _id: ObjectId(id) },
+        {
+          $set: {
+            result: {
+              title: poll.title,
+              votes: reck,
+            },
+          },
+        }
+      );
+  
+      res.sendStatus(201);
+    } 
+    catch (error) {
+      console.error(error);
+      res.sendStatus(500);
     }
-    catch(error) {
-
-    }
-}
+  }
 

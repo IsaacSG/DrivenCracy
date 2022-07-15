@@ -51,3 +51,24 @@ export async function newPoll(req, res) {
         res.sendStatus(422);
     }
 };
+
+export async function allChoices(req, res) {
+
+    try {
+
+    }
+    catch(error) {
+        
+    }
+}
+
+export async function pollResult(req, res) {
+
+    try {
+
+    }
+    catch(error) {
+
+    }
+}
+
